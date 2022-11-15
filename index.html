@@ -8,7 +8,7 @@
     <script src="api.js" type="module"></script>
     <script src="artists.json"></script>
     <script src="genres.json"></script>
-    <script src="Search.js"></script>
+    <script src="Main.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -17,12 +17,18 @@
     <div class="main">
         <p>Main section/Browse</p>
         <form id="search">
+            <label for="title">Title</label>
+            <input type="text" id="title"></br>
+            <label for="artist">Artist</label>
             <select id="artist">
 
-            </select>
+            </select></br>
+            <label for="genre">Genre</label>
             <select id="genre">
 
             </select>
+        </br>
+            <input type="submit" id="submit">
         </form>
         <table id="songs">
             
