@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const data = JSON.parse(localStorage.getItem("data"));
     createOpt("artist", artists);
     createOpt("genre", genres);
+    /* creates and populates the table data from the data stored in local storage*/
     function addTableData(trElement, tdData){
         trElement.setAttribute("data-songID", tdData.song_id);
         let td = document.createElement("td");
@@ -41,14 +42,25 @@ document.addEventListener("DOMContentLoaded", function(){
         addTableData(tr,a);
         document.querySelector("#songs").appendChild(tr);
     }
-    /* document.querySelector("#tableHeader").addEventListener("click", (e) =>{
-        for (let element of data){
-            element.sort((a,b) =>{
-                if (a.title < b.title) {return -1};
-                if (a.title > b.title) {return 1};
-                return 0;
-            });
-            console.log(element);
+    document.querySelector("#tableHeader").addEventListener("click", (e) =>{
+        data.sort((a,b) =>{
+            if (a.title < b.title) {return -1};
+            if (a.title > b.title) {return 1};
+            return 0;
+        });
+        document.querySelector('table').innerHTML = `<caption>Main section/Browse</caption>
+                <tr id="tableHeader">
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Year</th>
+                    <th>Genre</th>
+                    <th>Popularity</th>
+                </tr>`;
+        for (let a of data){
+            let tr = document.createElement("tr");
+            addTableData(tr,a);
+            document.querySelector("#songs").appendChild(tr);
         }
-    }); */
+        
+    }); 
 }); 
