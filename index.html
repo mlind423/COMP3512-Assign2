@@ -15,7 +15,7 @@
     <h1>Matthew Lindstrom and Spencer Reid</h1>
 
     <div class="main">
-        <p>Main section/Browse</p>
+        
         <form id="search">
             <label for="title">Title</label>
             <input type="text" id="title"></br>
@@ -27,12 +27,21 @@
             <select id="genre">
 
             </select>
-        </br>
+            </br>
             <input type="submit" id="submit">
         </form>
-        <table id="songs">
-            
-        </table>
+        <div id="tableContainer">
+            <table id="songs">
+                <caption>Main section/Browse</caption>
+                <tr id="tableHeader">
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Year</th>
+                    <th>Genre</th>
+                    <th>Popularity</th>
+                </tr>
+            </table>
+        </div>
     </div>
     <div class="song">
         <p>Single song</p>

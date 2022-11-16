@@ -1,5 +1,11 @@
+body{
+    height: 100%;
+}
 .main{
     display: ;
+    display:grid;
+    grid-template-columns: 1fr , 4fr;
+    height: 100vh;
 }
 .song{
     display: none;
@@ -7,3 +13,16 @@
 .playlists{
     display: none;
 }
+caption{
+    font-size: 20pt;
+    font-weight: 900;
+}
+form{
+    grid-column: 1;
+}
+#tableContainer{
+    grid-column: 2;
+    overflow-y: scroll;
+    height: 100%;
+}
+
