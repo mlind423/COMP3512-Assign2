@@ -39,25 +39,52 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     for (let a of data){
         let tr = document.createElement("tr");
+        tr.className = 'data';
         addTableData(tr,a);
         document.querySelector("#songs").appendChild(tr);
     }
     document.querySelector("#tableHeader").addEventListener("click", (e) =>{
-        data.sort((a,b) =>{
-            if (a.title < b.title) {return -1};
-            if (a.title > b.title) {return 1};
-            return 0;
-        });
-        document.querySelector('table').innerHTML = `<caption>Main section/Browse</caption>
-                <tr id="tableHeader">
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Year</th>
-                    <th>Genre</th>
-                    <th>Popularity</th>
-                </tr>`;
+        const sort = e.target.textContent.toLowerCase();
+        console.log(sort);
+        if(sort == 'title'){
+            data.sort((a,b) =>{
+                if (a.title < b.title) {return -1};
+                if (a.title > b.title) {return 1};
+                return 0;
+            });
+        }else if(sort == 'artist'){
+            data.sort((a,b) =>{
+                if (a.artist.name < b.artist.name) {return -1};
+                if (a.artist.name > b.artist.name) {return 1};
+                return 0;
+            });
+        }else if(sort == 'genre'){
+            data.sort((a,b) =>{
+                if (a.genre.name < b.genre.name) {return -1};
+                if (a.genre.name > b.genre.name) {return 1};
+                return 0;
+            });
+        }else if(sort == 'year'){
+            data.sort((a,b) =>{
+                if (a.year < b.year) {return -1};
+                if (a.year > b.year) {return 1};
+                return 0;
+            });
+        }else if(sort == 'popularity'){
+            data.sort((a,b) =>{
+                if (a.details.popularity < b.details.popularity) {return -1};
+                if (a.details.popularity > b.details.popularity) {return 1};
+                return 0;
+            });
+        }
+        
+        const table = document.querySelectorAll('.data');
+        for(let i of table){
+            i.remove();
+        }
         for (let a of data){
             let tr = document.createElement("tr");
+            tr.className = 'data';
             addTableData(tr,a);
             document.querySelector("#songs").appendChild(tr);
         }
