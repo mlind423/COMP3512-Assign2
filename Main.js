@@ -89,5 +89,13 @@ document.addEventListener("DOMContentLoaded", function(){
             document.querySelector("#songs").appendChild(tr);
         }
         
-    }); 
+    });
+    document.querySelector('#search').addEventListener('click', (e) =>{
+        if(e.target && e.target.id == "submit"){
+            e.preventDefault();
+            const title = document.querySelector('#title').value;
+            const artist = document.querySelector('#artist').value;
+            const genre = document.querySelector('#genre').value;
+        }
+    });
 }); 
