@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", function(){
     const artists = JSON.parse(artist);
     const genres = JSON.parse(genre);
-    const data = JSON.parse(localStorage.getItem("data"));
+    const data = JSON.parse(content)
+    // JSON.parse(localStorage.getItem("data"));
     createOpt("artist", artists);
     createOpt("genre", genres);
     /* creates and populates the table data from the data stored in local storage*/
