@@ -1,13 +1,15 @@
 document.addEventListener("DOMContentLoaded", function(){
+    const favorites = [];
+    document.querySelector('.song').style.display = 'none';
+    document.querySelector('.playlists').style.display = 'none';
     const artists = JSON.parse(artist);
     const genres = JSON.parse(genre);
-    const data = JSON.parse(content)
-    // JSON.parse(localStorage.getItem("data"));
+    const data = JSON.parse(localStorage.getItem("data"));
     createOpt("artist", artists);
     createOpt("genre", genres);
     /* creates and populates the table data from the data stored in local storage*/
     function addTableData(trElement, tdData){
-        trElement.setAttribute("data-songID", tdData.song_id);
+        trElement.setAttribute("data-songid", tdData.song_id);
         let td = document.createElement("td");
         td.textContent = tdData.title;
         trElement.appendChild(td);
@@ -99,4 +101,52 @@ document.addEventListener("DOMContentLoaded", function(){
             const genre = document.querySelector('#genre').value;
         }
     });
+    document.querySelector('#songs').addEventListener('mouseover', e => {
+        if(e.target.nodeName == "TD"){
+            const node = e.target.parentNode;
+            node.style.backgroundColor = 'black'; // change this color to change the hover highlight color 
+        }
+    });
+    document.querySelector("#songs").addEventListener('mouseout', e => {
+        if(e.target.nodeName == "TD"){
+            const node = e.target.parentNode;
+            node.style.backgroundColor = 'white';
+        }
+    });
+    /**
+     * Event listener for when a single song is clicked.
+     */
+    document.querySelector("#songs").addEventListener('click', e => {
+        if(e.target.nodeName == "TD"){
+            const node = e.target.parentNode;
+            console.log(node.getAttribute('data-songid')); //gives the song id 
+            document.querySelector('.main').style.display = 'none';
+            document.querySelector('.song').style.display = '';
+        }
+    });
+    document.querySelector('#songs').addEventListener('click', e =>{
+        if(e.target.nodeName == 'BUTTON'){
+            
+
+            for(i of JSON.parse(localStorage.getItem('data'))){
+                if(e.target.value == i.song_id){
+                    //console.log(i);
+                    favorite(i);
+                }
+            }
+        }
+    });
+    function favorite(item){
+        const snack = document.querySelector('#snackbar');
+        if(favorites.find(e => e.song_id == item.song_id) == undefined){
+            favorites.push(item);
+            snack.textContent = "Song added to Playlist";
+        }else{
+            snack.textContent = "Song already in Playlist";
+        }
+        let x = document.querySelector("#snackbar");
+        x.className = "show";
+        setTimeout(function(){x.className = x.className.replace("show", ''); }, 3000);
+        localStorage.setItem("favorites", JSON.stringify(favorites))
+    }
 }); 
