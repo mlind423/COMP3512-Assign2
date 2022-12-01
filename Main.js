@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
         addTableData(tr,a);
         document.querySelector("#songs").appendChild(tr);
     }
+    //event listener for filtering the songs based on what row header is clicked.
     document.querySelector("#tableHeader").addEventListener("click", (e) =>{
         const sort = e.target.textContent.toLowerCase();
         console.log(sort);
@@ -93,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         
     });
+    //event listener for clicking the search button.
     document.querySelector('#search').addEventListener('click', (e) =>{
         if(e.target && e.target.id == "submit"){
             e.preventDefault();
@@ -101,12 +103,14 @@ document.addEventListener("DOMContentLoaded", function(){
             const genre = document.querySelector('#genre').value;
         }
     });
+    //event listener for mouseing over songs. 
     document.querySelector('#songs').addEventListener('mouseover', e => {
         if(e.target.nodeName == "TD"){
             const node = e.target.parentNode;
             node.style.backgroundColor = 'black'; // change this color to change the hover highlight color 
         }
     });
+    //event listener for no longer being over a song.
     document.querySelector("#songs").addEventListener('mouseout', e => {
         if(e.target.nodeName == "TD"){
             const node = e.target.parentNode;
@@ -124,10 +128,9 @@ document.addEventListener("DOMContentLoaded", function(){
             document.querySelector('.song').style.display = '';
         }
     });
+    //This is the event listener for the add to playlist button
     document.querySelector('#songs').addEventListener('click', e =>{
         if(e.target.nodeName == 'BUTTON'){
-            
-
             for(i of JSON.parse(localStorage.getItem('data'))){
                 if(e.target.value == i.song_id){
                     //console.log(i);
@@ -136,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
     });
+    //This function adds songs to a playlist and add the popup snackbar to the screen
     function favorite(item){
         const snack = document.querySelector('#snackbar');
         if(favorites.find(e => e.song_id == item.song_id) == undefined){
