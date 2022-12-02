@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const genres = JSON.parse(genre);
     const data = JSON.parse(localStorage.getItem("data"));
     createOpt("artist", artists);
+    console.log(data);
     createOpt("genre", genres);
 
     /* creates and populates the table data from the data stored in local storage*/
@@ -106,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function(){
     document.querySelector('#songs').addEventListener('mouseover', e => {
         if(e.target.nodeName == "TD"){
             const node = e.target.parentNode;
-            node.style.backgroundColor = 'black'; // change this color to change the hover highlight color 
+            node.style.backgroundColor = 'grey'; // change this color to change the hover highlight color 
         }
     });
 
@@ -128,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function(){
             document.querySelector('.main').style.display = 'none';
             document.querySelector('.song').style.display = '';
             document.querySelector('#playlistButton').textContent = "Close View";
+            singleSongView(node.getAttribute('data-songid'));
         }
     });
 
@@ -277,6 +279,32 @@ document.addEventListener("DOMContentLoaded", function(){
         setTimeout(function(){x.className = x.className.replace("show", ''); }, 3000);
         localStorage.setItem("favorites", JSON.stringify(favorites))
     }
-
-
+    //Function to insert data to the single song page
+    function singleSongView(songID){
+        let song = data.find(song => song.song_id == songID);
+        let length = lengthformat(song.details.duration);
+        document.querySelector("#songInfo").textContent = 
+        `${song.title} by ${song.artist.name}: A ${song.genre.name} song, made in the year ${song.year}. (length ${length})`;
+        addAnalysisData(song);
+    }
+    //function to format the seconds to a human readable format
+    function lengthformat(seconds){
+        console.log(seconds);
+        let minutes = Math.floor(seconds / 60);
+        let remainderSeconds = seconds % 60;
+        let timeFormated = `${minutes}:${remainderSeconds}`;
+        return timeFormated;
+    }
+    //function to format the seconds to a human readable format
+    function addAnalysisData(song){
+        document.querySelector("#bpm").textContent =            `bpm: ${song.details.bpm}`;
+        document.querySelector("#energy").textContent =         `energy: ${song.analytics.energy}`;
+        document.querySelector("#danceability").textContent =   `danceability: ${song.analytics.danceability}`;
+        document.querySelector("#liveness").textContent =       `liveness: ${song.analytics.liveness}`;
+        document.querySelector("#valence").textContent =        `valence: ${song.analytics.valence}`;
+        document.querySelector("#acousticness").textContent =   `acousticness: ${song.analytics.acousticness}`;
+        document.querySelector("#speechiness").textContent =    `speechiness: ${song.analytics.speechiness}`
+        document.querySelector("#popularity").textContent =     `popularity: ${song.details.popularity}`
+        ;
+    }
 }); 
