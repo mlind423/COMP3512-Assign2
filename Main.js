@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function(){
+    //some inital setupt things
     const favorites = [];
     document.querySelector('.song').style.display = 'none';
     document.querySelector('.playlists').style.display = 'none';
@@ -7,8 +8,9 @@ document.addEventListener("DOMContentLoaded", function(){
     const data = JSON.parse(localStorage.getItem("data"));
     createOpt("artist", artists);
     createOpt("genre", genres);
+
     /* creates and populates the table data from the data stored in local storage*/
-    function addTableData(trElement, tdData){
+    function addTableData(trElement, tdData, buttonName){
         trElement.setAttribute("data-songid", tdData.song_id);
         let td = document.createElement("td");
         td.textContent = tdData.title;
@@ -27,10 +29,12 @@ document.addEventListener("DOMContentLoaded", function(){
         trElement.appendChild(td);
         const button = document.createElement("button");
         button.type = "button";
-        button.textContent = "Add";
+        button.textContent = buttonName;
         button.setAttribute("value", tdData.song_id);
         trElement.appendChild(button);
     }
+
+    //creates the option lists in the form using the data provided in json files
     function createOpt(id, optionData){
         for(a of optionData){
             const opt = document.createElement('option');
@@ -40,12 +44,15 @@ document.addEventListener("DOMContentLoaded", function(){
             document.querySelector(`#${id}`).appendChild(opt);
         }
     }
+
+    //Creates the inital table with data
     for (let a of data){
         let tr = document.createElement("tr");
         tr.className = 'data';
-        addTableData(tr,a);
-        document.querySelector("#songs").appendChild(tr);
+        addTableData(tr,a,"Add");
+        document.querySelector(".main #songs").appendChild(tr);
     }
+    
     //event listener for filtering the songs based on what row header is clicked.
     document.querySelector("#tableHeader").addEventListener("click", (e) =>{
         const sort = e.target.textContent.toLowerCase();
@@ -89,20 +96,12 @@ document.addEventListener("DOMContentLoaded", function(){
         for (let a of data){
             let tr = document.createElement("tr");
             tr.className = 'data';
-            addTableData(tr,a);
+            addTableData(tr,a, "Add");
             document.querySelector("#songs").appendChild(tr);
         }
         
     });
-    //event listener for clicking the search button.
-    document.querySelector('#search').addEventListener('click', (e) =>{
-        if(e.target && e.target.id == "submit"){
-            e.preventDefault();
-            const title = document.querySelector('#title').value;
-            const artist = document.querySelector('#artist').value;
-            const genre = document.querySelector('#genre').value;
-        }
-    });
+    
     //event listener for mouseing over songs. 
     document.querySelector('#songs').addEventListener('mouseover', e => {
         if(e.target.nodeName == "TD"){
@@ -110,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function(){
             node.style.backgroundColor = 'black'; // change this color to change the hover highlight color 
         }
     });
+
     //event listener for no longer being over a song.
     document.querySelector("#songs").addEventListener('mouseout', e => {
         if(e.target.nodeName == "TD"){
@@ -117,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function(){
             node.style.backgroundColor = 'white';
         }
     });
+
     /**
      * Event listener for when a single song is clicked.
      */
@@ -126,8 +127,10 @@ document.addEventListener("DOMContentLoaded", function(){
             console.log(node.getAttribute('data-songid')); //gives the song id 
             document.querySelector('.main').style.display = 'none';
             document.querySelector('.song').style.display = '';
+            document.querySelector('#playlistButton').textContent = "Close View";
         }
     });
+
     //This is the event listener for the add to playlist button
     document.querySelector('#songs').addEventListener('click', e =>{
         if(e.target.nodeName == 'BUTTON'){
@@ -139,6 +142,127 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
     });
+
+    //Event listener for view playlist button
+    document.querySelector('#playlistButton').addEventListener('click', e => {
+        if(e.target.nodeName == 'BUTTON' && e.target.textContent == 'Playlist'){
+            const playlist = JSON.parse(localStorage.getItem('favorites'));
+            document.querySelector(".main").style.display = 'none';
+            document.querySelector('.playlists').style.display = '';
+            document.querySelector('#playlistButton').textContent = "Close View";
+            const table = document.querySelectorAll('.fav');
+            for(let i of table){//This removes the table every time the playlist button is pressed
+                i.remove();
+            }
+            if(playlist != null){ //This remakes the table every time the playlist button is pressed which sucks but it works for now 
+                for(let a of playlist){
+                    let tr = document.createElement("tr");
+                    tr.className = 'fav';
+                    addTableData(tr,a,"Remove");
+                    document.querySelector("#list").appendChild(tr);
+                }
+            }
+            
+        }else{
+            document.querySelector(".main").style.display = '';
+            document.querySelector('.playlists').style.display = 'none';
+            document.querySelector('.song').style.display = 'none';
+            document.querySelector('#playlistButton').textContent = "Playlist";
+        }
+    });
+
+    //This enables and disables search options based on which radio button is clicked
+    document.querySelector("#search").addEventListener('click', e =>{
+        if(e.target.nodeName == "INPUT" && e.target.type == 'radio'){
+            if(e.target.id == 'radioTitle'){
+                document.querySelector('#radioArtist').setAttribute('disabled', 'true'); 
+                document.querySelector('#radioGenre').setAttribute('disabled', 'true'); 
+                document.querySelector('#artist').setAttribute('disabled', 'true'); 
+                document.querySelector('#genre').setAttribute('disabled', 'true');
+                document.querySelector('#radioTitle').setAttribute('checked', 'true');
+            }else if(e.target.id == 'radioArtist'){
+                document.querySelector('#radioTitle').setAttribute('disabled', 'true'); 
+                document.querySelector('#radioGenre').setAttribute('disabled', 'true');
+                document.querySelector('#title').setAttribute('disabled', 'true'); 
+                document.querySelector('#genre').setAttribute('disabled', 'true');
+                document.querySelector('#radioArtist').setAttribute('checked', 'true');
+            }else{
+                document.querySelector('#radioArtist').setAttribute('disabled', 'true'); 
+                document.querySelector('#radioTitle').setAttribute('disabled', 'true');
+                document.querySelector('#artist').setAttribute('disabled', 'true'); 
+                document.querySelector('#title').setAttribute('disabled', 'true');
+                document.querySelector('#radioGenre').setAttribute('checked', 'true');
+            }
+        }
+    });
+
+    //This reenables every single search option (clear button)
+    document.querySelector("#search").addEventListener('click', e =>{
+        if(e.target.nodeName == "BUTTON" && e.target.type == 'button'){
+            document.querySelector('#radioTitle').removeAttribute('disabled'); 
+            document.querySelector('#title').value = '';
+            document.querySelector('#radioArtist').removeAttribute('disabled'); 
+            document.querySelector('#radioGenre').removeAttribute('disabled'); 
+            document.querySelector('#radioTitle').removeAttribute('checked'); 
+            document.querySelector('#radioArtist').removeAttribute('checked'); 
+            document.querySelector('#radioGenre').removeAttribute('checked'); 
+            document.querySelector('#artist').removeAttribute('disabled'); 
+            document.querySelector('#title').removeAttribute('disabled');
+            document.querySelector('#genre').removeAttribute('disabled'); 
+            const table = document.querySelectorAll('.data');
+            for(let i of table){//This removes the table every time the playlist button is pressed
+                i.remove();
+            }
+            for (let a of data){
+                let tr = document.createElement("tr");
+                tr.className = 'data';
+                addTableData(tr,a,"Add");
+                document.querySelector(".main #songs").appendChild(tr);
+            }    
+        }
+    });
+
+    //Filters the songs page based on inputs from user
+    document.querySelector('#submit').addEventListener('click', e =>{
+        e.preventDefault();
+        if(e.target.type == "submit"){
+            let title;
+            let artist;
+            let genre;
+            let filtered = [];
+            if(document.querySelector('#radioTitle').hasAttribute('checked')){
+                title = document.querySelector('#title').value
+                filtered = data.filter(e => {
+                    if(e.title.toLowerCase().includes(title.toLowerCase())){
+                        return e;
+                    }
+                });
+                
+            }else if(document.querySelector('#radioArtist').hasAttribute('checked')){
+                artist = document.querySelector('#artist').value;
+                filtered = data.filter(e =>{
+                    return e.artist.id == artist;
+                });
+            }else if(document.querySelector('#radioGenre').hasAttribute('checked')){
+                genre = document.querySelector('#genre').value
+                filtered = data.filter(e => {
+                    return e.genre.id == genre;
+                });
+            }
+            const table = document.querySelectorAll('.data');
+            for(let i of table){//This removes the table every time the playlist button is pressed
+                i.remove();
+            }
+            for(a of filtered){
+                console.log(a);
+                let tr = document.createElement("tr");
+                tr.className = 'data';
+                addTableData(tr,a,"Add");
+                document.querySelector("#songs").appendChild(tr);
+            }
+        }
+    });
+
     //This function adds songs to a playlist and add the popup snackbar to the screen
     function favorite(item){
         const snack = document.querySelector('#snackbar');
@@ -153,4 +277,6 @@ document.addEventListener("DOMContentLoaded", function(){
         setTimeout(function(){x.className = x.className.replace("show", ''); }, 3000);
         localStorage.setItem("favorites", JSON.stringify(favorites))
     }
+
+
 }); 
