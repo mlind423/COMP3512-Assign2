@@ -10,7 +10,7 @@ body{
 
 }
 .playlists{
-    
+
 }
 caption{
     font-size: 20pt;
@@ -23,6 +23,10 @@ form{
     grid-column: 2;
     overflow-y: scroll;
     height: 100%;
+}
+#credits{
+    background-color: gray;
+    width: 10vw;
 }
 
 /*This is all snackbar css code taken from w3schools*/

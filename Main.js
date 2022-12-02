@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", function(){
     //some inital setupt things
-    const favorites = [];
+    let favorites = [];
     document.querySelector('.song').style.display = 'none';
     document.querySelector('.playlists').style.display = 'none';
+    document.querySelector('#credits').style.display = 'none';
     const artists = JSON.parse(artist);
     const genres = JSON.parse(genre);
     const data = JSON.parse(localStorage.getItem("data"));
@@ -55,50 +56,79 @@ document.addEventListener("DOMContentLoaded", function(){
     
     //event listener for filtering the songs based on what row header is clicked.
     document.querySelector("#tableHeader").addEventListener("click", (e) =>{
-        const sort = e.target.textContent.toLowerCase();
-        console.log(sort);
-        if(sort == 'title'){
+        let sort = e.target.textContent.toLowerCase();
+        let text = e.target.textContent;
+        if(text.includes('▼')){
+            text = text.replace(/.$/, "▲");
+            e.target.textContent = text;
+        }else{
+            text = text.replace(/.$/, "▼");
+            e.target.textContent = text;
+        }
+        //I hate how long this is
+        if(sort == 'title ▼'){
             data.sort((a,b) =>{
                 if (a.title < b.title) {return -1};
                 if (a.title > b.title) {return 1};
                 return 0;
             });
-        }else if(sort == 'artist'){
+        }else if(sort == 'artist ▼'){
             data.sort((a,b) =>{
                 if (a.artist.name < b.artist.name) {return -1};
                 if (a.artist.name > b.artist.name) {return 1};
                 return 0;
             });
-        }else if(sort == 'genre'){
+        }else if(sort == 'genre ▼'){
             data.sort((a,b) =>{
                 if (a.genre.name < b.genre.name) {return -1};
                 if (a.genre.name > b.genre.name) {return 1};
                 return 0;
             });
-        }else if(sort == 'year'){
+        }else if(sort == 'year ▼'){
             data.sort((a,b) =>{
                 if (a.year < b.year) {return -1};
                 if (a.year > b.year) {return 1};
                 return 0;
             });
-        }else if(sort == 'popularity'){
+        }else if(sort == 'popularity ▼'){
             data.sort((a,b) =>{
                 if (a.details.popularity < b.details.popularity) {return -1};
                 if (a.details.popularity > b.details.popularity) {return 1};
                 return 0;
             });
+        }else if(sort == 'title ▲'){
+            data.sort((a,b) =>{
+                if (a.title > b.title) {return -1};
+                if (a.title < b.title) {return 1};
+                return 0;
+            });
+        }else if(sort == 'artist ▲'){
+            data.sort((a,b) =>{
+                if (a.artist.name > b.artist.name) {return -1};
+                if (a.artist.name < b.artist.name) {return 1};
+                return 0;
+            });
+        }else if(sort == 'genre ▲'){
+            data.sort((a,b) =>{
+                if (a.genre.name > b.genre.name) {return -1};
+                if (a.genre.name < b.genre.name) {return 1};
+                return 0;
+            });
+        }else if(sort == 'year ▲'){
+            data.sort((a,b) =>{
+                if (a.year > b.year) {return -1};
+                if (a.year < b.year) {return 1};
+                return 0;
+            });
+        }else if(sort == 'popularity ▲'){
+            data.sort((a,b) =>{
+                if (a.details.popularity > b.details.popularity) {return -1};
+                if (a.details.popularity < b.details.popularity) {return 1};
+                return 0;
+            });
         }
-        
-        const table = document.querySelectorAll('.data');
-        for(let i of table){
-            i.remove();
-        }
-        for (let a of data){
-            let tr = document.createElement("tr");
-            tr.className = 'data';
-            addTableData(tr,a, "Add");
-            document.querySelector("#songs").appendChild(tr);
-        }
+        makePlaylist(".data", data, "#songs", "Add", 'data');
+       
         
     });
     
@@ -107,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function(){
         if(e.target.nodeName == "TD"){
             const node = e.target.parentNode;
             node.style.backgroundColor = 'black'; // change this color to change the hover highlight color 
+            node.style.cursor = "pointer";
         }
     });
 
@@ -150,18 +181,7 @@ document.addEventListener("DOMContentLoaded", function(){
             document.querySelector(".main").style.display = 'none';
             document.querySelector('.playlists').style.display = '';
             document.querySelector('#playlistButton').textContent = "Close View";
-            const table = document.querySelectorAll('.fav');
-            for(let i of table){//This removes the table every time the playlist button is pressed
-                i.remove();
-            }
-            if(playlist != null){ //This remakes the table every time the playlist button is pressed which sucks but it works for now 
-                for(let a of playlist){
-                    let tr = document.createElement("tr");
-                    tr.className = 'fav';
-                    addTableData(tr,a,"Remove");
-                    document.querySelector("#list").appendChild(tr);
-                }
-            }
+            makePlaylist(".fav", playlist, "#list", "Remove", "fav");
             
         }else{
             document.querySelector(".main").style.display = '';
@@ -175,20 +195,17 @@ document.addEventListener("DOMContentLoaded", function(){
     document.querySelector("#search").addEventListener('click', e =>{
         if(e.target.nodeName == "INPUT" && e.target.type == 'radio'){
             if(e.target.id == 'radioTitle'){
-                document.querySelector('#radioArtist').setAttribute('disabled', 'true'); 
-                document.querySelector('#radioGenre').setAttribute('disabled', 'true'); 
+                document.querySelector('#title').removeAttribute('disabled');
                 document.querySelector('#artist').setAttribute('disabled', 'true'); 
                 document.querySelector('#genre').setAttribute('disabled', 'true');
                 document.querySelector('#radioTitle').setAttribute('checked', 'true');
             }else if(e.target.id == 'radioArtist'){
-                document.querySelector('#radioTitle').setAttribute('disabled', 'true'); 
-                document.querySelector('#radioGenre').setAttribute('disabled', 'true');
+                document.querySelector('#artist').removeAttribute('disabled');
                 document.querySelector('#title').setAttribute('disabled', 'true'); 
                 document.querySelector('#genre').setAttribute('disabled', 'true');
                 document.querySelector('#radioArtist').setAttribute('checked', 'true');
             }else{
-                document.querySelector('#radioArtist').setAttribute('disabled', 'true'); 
-                document.querySelector('#radioTitle').setAttribute('disabled', 'true');
+                document.querySelector('#genre').removeAttribute('disabled');
                 document.querySelector('#artist').setAttribute('disabled', 'true'); 
                 document.querySelector('#title').setAttribute('disabled', 'true');
                 document.querySelector('#radioGenre').setAttribute('checked', 'true');
@@ -198,27 +215,15 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //This reenables every single search option (clear button)
     document.querySelector("#search").addEventListener('click', e =>{
-        if(e.target.nodeName == "BUTTON" && e.target.type == 'button'){
-            document.querySelector('#radioTitle').removeAttribute('disabled'); 
-            document.querySelector('#title').value = '';
-            document.querySelector('#radioArtist').removeAttribute('disabled'); 
-            document.querySelector('#radioGenre').removeAttribute('disabled'); 
+        if(e.target.nodeName == "BUTTON" && e.target.type == 'button'){ 
+            document.querySelector('#title').value = ''; 
             document.querySelector('#radioTitle').removeAttribute('checked'); 
             document.querySelector('#radioArtist').removeAttribute('checked'); 
             document.querySelector('#radioGenre').removeAttribute('checked'); 
             document.querySelector('#artist').removeAttribute('disabled'); 
             document.querySelector('#title').removeAttribute('disabled');
             document.querySelector('#genre').removeAttribute('disabled'); 
-            const table = document.querySelectorAll('.data');
-            for(let i of table){//This removes the table every time the playlist button is pressed
-                i.remove();
-            }
-            for (let a of data){
-                let tr = document.createElement("tr");
-                tr.className = 'data';
-                addTableData(tr,a,"Add");
-                document.querySelector(".main #songs").appendChild(tr);
-            }    
+            makePlaylist(".data", data, ".main #songs", "Add", "data");  
         }
     });
 
@@ -249,19 +254,35 @@ document.addEventListener("DOMContentLoaded", function(){
                     return e.genre.id == genre;
                 });
             }
-            const table = document.querySelectorAll('.data');
-            for(let i of table){//This removes the table every time the playlist button is pressed
-                i.remove();
-            }
-            for(a of filtered){
-                console.log(a);
-                let tr = document.createElement("tr");
-                tr.className = 'data';
-                addTableData(tr,a,"Add");
-                document.querySelector("#songs").appendChild(tr);
-            }
+            makePlaylist(".data", filtered, "#songs", "Add", "data");
         }
     });
+    //This handles the remove button for the playlist page
+    document.querySelector('#list').addEventListener('click', e =>{
+        if(e.target.nodeName == "BUTTON"){
+            favorites = [];
+            favorites = [...JSON.parse(localStorage.getItem('favorites'))];
+            let index = favorites.indexOf(favorites.find(i=>{return i.song_id == e.target.value}));
+            if(index > -1){
+                favorites.splice(index, 1);
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            makePlaylist(".fav", favorites, "#list", "Remove", "fav");
+        }
+    });
+    //This handles the credit button when it is hovered over
+    document.querySelector("#creditButton").addEventListener('mouseover', e=>{
+        if(e.target.nodeName == "BUTTON"){
+            let credits = document.querySelector("#credits");
+            credits.style.display = '';
+            document.querySelector('#creditButton').textContent = "Credits ▲";
+            setTimeout(() => {
+                credits.style.display = 'none';
+                document.querySelector('#creditButton').textContent = 'Credits ▼';
+            }, 5000);
+        }
+    });
+    
 
     //This function adds songs to a playlist and add the popup snackbar to the screen
     function favorite(item){
@@ -275,8 +296,22 @@ document.addEventListener("DOMContentLoaded", function(){
         let x = document.querySelector("#snackbar");
         x.className = "show";
         setTimeout(function(){x.className = x.className.replace("show", ''); }, 3000);
-        localStorage.setItem("favorites", JSON.stringify(favorites))
+        localStorage.setItem("favorites", JSON.stringify(favorites));
     }
-
+    //Makes a table containing an array of data
+    function makePlaylist(type, array, id, text, name){
+        const table = document.querySelectorAll(type);
+        for(let i of table){//This removes the table every time the playlist button is pressed
+            i.remove();
+        }
+        if(array != null){  
+            for(let a of array){
+                let tr = document.createElement("tr");
+                tr.className = name;
+                addTableData(tr,a, text);
+                document.querySelector(id).appendChild(tr);
+            }
+        }
+    }
 
 }); 
