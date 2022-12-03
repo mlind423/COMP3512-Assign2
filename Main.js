@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const artists = JSON.parse(artist);
     const genres = JSON.parse(genre);
     const data = JSON.parse(localStorage.getItem("data"));
+    console.log(data);
     createOpt("artist", artists);
     createOpt("genre", genres);
     hoverHandler("#songs");
@@ -166,15 +167,16 @@ document.addEventListener("DOMContentLoaded", function(){
             let genre;
             let filtered = [];
             if(document.querySelector('#radioTitle').hasAttribute('checked')){
-                title = document.querySelector('#title').value
+                title = document.querySelector('#title').value;
+                console.log(typeof title);
                 filtered = data.filter(e => {
-                    if(e.title.toLowerCase().includes(title.toLowerCase())){
+                    if(String(e.title).toLowerCase().includes(title.toLowerCase())){
                         return e;
                     }
                 });
                 
             }else if(document.querySelector('#radioArtist').hasAttribute('checked')){
-                artist = document.querySelector('#artist').value;
+                artist = document.querySelector('#artist').value; 
                 filtered = data.filter(e =>{
                     return e.artist.id == artist;
                 });

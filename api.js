@@ -18,6 +18,7 @@ import {makePlaylist} from "./TableCreator.js";
             console.warn("loading from API");
             getData().then((e) => {
                makePlaylist(".data", e, ".main #songs", "Add", "data"); //Creates the table when the data is loaded from the api 
+               console.log(JSON.stringify(e));
                localStorage.setItem('data', JSON.stringify(e));
             });
          }else{
