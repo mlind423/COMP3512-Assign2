@@ -2,6 +2,7 @@
 // I just commented this out to prevent overuse of the api
 const api = 'https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
 import {makePlaylist} from "./TableCreator.js"; 
+import {core} from "./Main.js"; 
    storedata();
    /* note: you may get a CORS error if you try fetching this locally (i.e., directly from a
       local file). To work correctly, this needs to be tested on a local web server.  
@@ -18,13 +19,15 @@ import {makePlaylist} from "./TableCreator.js";
             console.warn("loading from API");
             getData().then((e) => {
                makePlaylist(".data", e, ".main #songs", "Add", "data"); //Creates the table when the data is loaded from the api 
-               console.log(JSON.stringify(e));
                localStorage.setItem('data', JSON.stringify(e));
+               core(retrieveStorage());
             });
          }else{
             makePlaylist(".data", retrieveStorage(), ".main #songs", "Add", "data");
+            document.addEventListener("DOMContentLoaded", core(retrieveStorage()));
             console.log("information already in local storage");
          }
+         
 
       }
       

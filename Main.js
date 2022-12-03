@@ -1,5 +1,5 @@
 import {makePlaylist} from "./TableCreator.js"; 
-document.addEventListener("DOMContentLoaded", function(){
+function core(data){
     //some inital setupt things
     let favorites = [];
     document.querySelector('.song').style.display = 'none';
@@ -7,8 +7,6 @@ document.addEventListener("DOMContentLoaded", function(){
     document.querySelector('#credits').style.display = 'none';
     const artists = JSON.parse(artist);
     const genres = JSON.parse(genre);
-    const data = JSON.parse(localStorage.getItem("data"));
-    console.log(data);
     createOpt("artist", artists);
     createOpt("genre", genres);
     hoverHandler("#songs");
@@ -89,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function(){
             });
         }
         makePlaylist(".data", data, "#songs", "Add", 'data');
-       
+    
         
     });
 
@@ -168,7 +166,6 @@ document.addEventListener("DOMContentLoaded", function(){
             let filtered = [];
             if(document.querySelector('#radioTitle').hasAttribute('checked')){
                 title = document.querySelector('#title').value;
-                console.log(typeof title);
                 filtered = data.filter(e => {
                     if(String(e.title).toLowerCase().includes(title.toLowerCase())){
                         return e;
@@ -266,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function(){
         document.querySelector(id).addEventListener('click', e => {
             if(e.target.nodeName == "TD"){
                 const node = e.target.parentNode;
-                console.log(node.getAttribute('data-songid')); //gives the song id 
+                /* console.log(node.getAttribute('data-songid')); */ //gives the song id 
                 document.querySelector('.main').style.display = 'none';
                 document.querySelector('.playlists').style.display = 'none';
                 document.querySelector('.song').style.display = '';
@@ -283,10 +280,10 @@ document.addEventListener("DOMContentLoaded", function(){
         document.querySelector("#songInfo").textContent = 
         `${song.title} by ${song.artist.name}: A ${song.genre.name} song, made in the year ${song.year}. (length ${length})`;
         addAnalysisData(song);
+        radarCreator(song);
     }
     //function to format the seconds to a human readable format
     function lengthformat(seconds){
-        console.log(seconds);
         let minutes = Math.floor(seconds / 60);
         let remainderSeconds = seconds % 60;
         let timeFormated = `${minutes}:${remainderSeconds}`;
@@ -304,4 +301,55 @@ document.addEventListener("DOMContentLoaded", function(){
         document.querySelector("#popularity").textContent =     `popularity: ${song.details.popularity}`
         ;
     }
-}); 
+    //function to create the Radar Chart 
+    function radarCreator(song){
+        const graphData = {
+            labels: [
+                'Danceability',
+                'Energy',
+                'Speechiness',
+                'Acousticness',
+                'Liveness',
+                'Valence'
+              ],
+              datasets: [{
+                label: song.title,
+                data: [ song.analytics.danceability,
+                        song.analytics.energy,
+                        song.analytics.speechiness,
+                        song.analytics.acousticness,
+                        song.analytics.liveness,
+                        song.analytics.valence],
+                fill: true,
+                backgroundColor: 'rgba(255,0,0,.6)',
+                borderColor: 'rgb(255,0,0)',
+                pointBackgroundColor: 'rgb(255,0,0)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: 'rgb(255,0,0',
+                pointHoverBorderColor: '#fff'               
+              }]
+        }
+        const graph = document.createElement("canvas");
+        document.querySelector("#chart").innerHTML = "";
+        document.querySelector("#chart").appendChild(graph);
+        new Chart(graph,
+        {
+            type: 'radar',
+            data: graphData,
+            options: {
+                elements: {
+                    line: {
+                        borderWidth: 3
+                    }
+                },
+                scales: {
+                    r: {   
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+    }
+}
+export {core};
