@@ -146,9 +146,9 @@ function core(data){
     document.querySelector("#search").addEventListener('click', e =>{
         if(e.target.nodeName == "BUTTON" && e.target.type == 'button'){ 
             document.querySelector('#title').value = ''; 
-            document.querySelector('#radioTitle').removeAttribute('checked'); 
-            document.querySelector('#radioArtist').removeAttribute('checked'); 
-            document.querySelector('#radioGenre').removeAttribute('checked'); 
+            document.querySelector('#radioTitle').checked = false; 
+            document.querySelector('#radioArtist').checked = false; 
+            document.querySelector('#radioGenre').checked = false; 
             document.querySelector('#artist').removeAttribute('disabled'); 
             document.querySelector('#title').removeAttribute('disabled');
             document.querySelector('#genre').removeAttribute('disabled'); 
