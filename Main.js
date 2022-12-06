@@ -2,7 +2,7 @@ import {makePlaylist} from "./TableCreator.js";
 function core(data){
     //some inital setupt things
     let favorites = [];
-    document.querySelector('.song').style.display = 'none';
+    document.querySelector('#singleSong').style.display = 'none';
     document.querySelector('.playlists').style.display = 'none';
     document.querySelector('#credits').style.display = 'none';
     const artists = JSON.parse(artist);
@@ -115,7 +115,7 @@ function core(data){
         }else{
             document.querySelector(".main").style.display = '';
             document.querySelector('.playlists').style.display = 'none';
-            document.querySelector('.song').style.display = 'none';
+            document.querySelector('#singleSong').style.display = 'none';
             document.querySelector('#playlistButton').textContent = "Playlist";
         }
     });
@@ -240,22 +240,24 @@ function core(data){
 
     //Handles the table hover and click events for both the main table and the playlist table
     function hoverHandler(id){
+        //Changed hover even listening to CSS hover attribute
+
         //event listener for mouseing over songs. 
-        document.querySelector(id).addEventListener('mouseover', e => {
+        /* document.querySelector(id).addEventListener('mouseover', e => {
             if(e.target.nodeName == "TD"){
                 const node = e.target.parentNode;
                 node.style.backgroundColor = 'grey'; // change this color to change the hover highlight color
                 node.style.cursor = 'pointer'; 
             }
-        });
+        }); */
 
         //event listener for no longer being over a song.
-        document.querySelector(id).addEventListener('mouseout', e => {
+        /* document.querySelector(id).addEventListener('mouseout', e => {
             if(e.target.nodeName == "TD"){
                 const node = e.target.parentNode;
                 node.style.backgroundColor = 'white';
             }
-        });
+        }); */
 
         /**
          * Event listener for when a single song is clicked.
@@ -266,7 +268,7 @@ function core(data){
                 /* console.log(node.getAttribute('data-songid')); */ //gives the song id 
                 document.querySelector('.main').style.display = 'none';
                 document.querySelector('.playlists').style.display = 'none';
-                document.querySelector('.song').style.display = '';
+                document.querySelector('#singleSong').style.display = '';
                 document.querySelector('#playlistButton').textContent = "Close View";
                 singleSongView(node.getAttribute('data-songid'));
             }
@@ -286,6 +288,7 @@ function core(data){
     function lengthformat(seconds){
         let minutes = Math.floor(seconds / 60);
         let remainderSeconds = seconds % 60;
+        if (remainderSeconds < 10){remainderSeconds = `0${remainderSeconds}`}
         let timeFormated = `${minutes}:${remainderSeconds}`;
         return timeFormated;
     }
@@ -350,6 +353,8 @@ function core(data){
                 }
             }
         });
+        graph.removeAttribute("height");
+        graph.removeAttribute("width");
     }
 }
 export {core};

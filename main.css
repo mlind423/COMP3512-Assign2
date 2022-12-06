@@ -16,6 +16,33 @@ nav{
 .playlists{
 
 }
+
+#singleSong{
+    display:grid;
+    grid-template-columns: 20% 80%;
+    height: 100vh;
+}
+#chartContainer{
+  grid-column: 2 / 3;
+  width: 100%;
+}
+#chart{
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+canvas{
+  width: 100%;
+}
+h4{
+  text-align: center;
+}
+#analysisData{
+  background-color: aqua;
+}
+#details{
+  background-color: crimson;
+}
 caption{
     font-size: 20pt;
     font-weight: 900;
@@ -32,7 +59,12 @@ form{
     background-color: gray;
     width: 10vw;
 }
-
+tr:nth-child(even) {
+  background-color: rgba(63, 63, 63, 0.35);
+}
+tr:hover{
+  background-color: rgba(63, 63, 63, 0.6) ;
+}
 /*This is all snackbar css code taken from w3schools*/
 #snackbar {
     visibility: hidden; /* Hidden by default. Visible on click */

@@ -31,7 +31,7 @@
     <div class="main">
         
         <form id="search">
-            <input type="radio" id="radioTitle" name="radio" checked>
+            <input type="radio" id="radioTitle" name="radio">
             <label for="title">Title</label>
             <input type="text" id="title"></br>
 
@@ -62,31 +62,32 @@
             </table>
         </div>
     </div>
-    <div class="song">
-        <p>Single song</p>
+    <div id="singleSong">
         <div>
-            <head>Song Information</head>
-            <p id="songInfo"></p>
-            <br>
-            <p>Analysis Data</p>
-            <ul>
-                <li id="bpm"></li>
-                <li id="energy"></li>
-                <li id="danceability"></li>
-                <li id="liveness"></li>
-                <li id="valence"></li>
-                <li id="acousticness"></li>
-                <li id="speechiness"></li>
-                <li id="popularity"></li>
-            </ul>
+            <div id="details">
+                <h2>Song Information</h2>
+                <p id="songInfo"></p>
+                <br>
+            </div>
+            <div id="analysisData">
+                <p>Analysis Data</p>
+                <ul>
+                    <li id="bpm"></li>
+                    <li id="energy"></li>
+                    <li id="danceability"></li>
+                    <li id="liveness"></li>
+                    <li id="valence"></li>
+                    <li id="acousticness"></li>
+                    <li id="speechiness"></li>
+                    <li id="popularity"></li>
+                </ul>
+            </div>
         </div>
         <div id="chartContainer">
-            <h3>Radar Chart</h3>
+            <h4>Radar Chart</h4>
             <div id="chart"></div>
 
         </div>
-
-
     </div>
     <div class="playlists">
         <table id="list">
