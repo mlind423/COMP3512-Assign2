@@ -54,7 +54,7 @@ nav{
 }
 #singleSong{
     display:grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 2fr 4fr;
     height: 100vh;
 }
 #chartContainer{
