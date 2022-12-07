@@ -149,9 +149,9 @@ function core(data){
             document.querySelector('#radioTitle').checked = false; 
             document.querySelector('#radioArtist').checked = false; 
             document.querySelector('#radioGenre').checked = false; 
-            document.querySelector('#artist').removeAttribute('disabled'); 
-            document.querySelector('#title').removeAttribute('disabled');
-            document.querySelector('#genre').removeAttribute('disabled'); 
+            document.querySelector('#artist').setAttribute('disabled',""); 
+            document.querySelector('#title').setAttribute('disabled',"");
+            document.querySelector('#genre').setAttribute('disabled',""); 
             makePlaylist(".data", data, ".main #songs", "Add", "data");  
         }
     });
@@ -178,7 +178,7 @@ function core(data){
                     return e.artist.id == artist;
                 });
             }else if(document.querySelector('#radioGenre').hasAttribute('checked')){
-                genre = document.querySelector('#genre').value
+                genre = document.querySelector('#genre').value;
                 filtered = data.filter(e => {
                     return e.genre.id == genre;
                 });
