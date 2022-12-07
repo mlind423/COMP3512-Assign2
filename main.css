@@ -14,6 +14,28 @@ header{
   margin: 0px;
   background-color: var(--HeaderFooter);
 }
+footer{
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  background-color: var(--HeaderFooter);
+  color: white;
+  margin: auto;
+}
+footer > *{
+  margin: 4px;
+}
+.Github{
+  width: 60%;
+  display: flex;
+  justify-content: space-around;
+}
+.Github a:hover{
+  background-color: rgba(63, 63, 63, 0.6);
+}
+.Github a{
+  padding: 2px;
+}
 p{
   margin-block-start: 0;
   margin-block-end: 0;
