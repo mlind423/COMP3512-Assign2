@@ -1,12 +1,30 @@
+:root{
+  --Background: #18191A;
+  --HeaderFooter:#2D1D44;
+  --CurrentPage: #5a0066;
+  --LinkColor: #18CF00;
+}
 body{
     height: 100%;
+    background-color:  var(--Background);
+    color: white;
+    margin: 0px;
 }
 header{
-  margin-bottom: 10px;
+  margin: 0px;
+  background-color: var(--HeaderFooter);
 }
 p{
   margin-block-start: 0;
   margin-block-end: 0;
+}
+h1{
+  margin-top: 0;
+  padding: 10px;
+  padding-top: 16px;
+}
+h3{
+  padding: 10px;
 }
 nav button {
   padding:6px;
@@ -25,13 +43,15 @@ nav button {
   margin-top: 10px;
 }
 nav{
-  margin-bottom: 20px;
+  margin-bottom: 0;
   display: flex;
 }
 .playlists{
-
+  width: 100%;
 }
-
+#list{
+  width:100%;
+}
 #singleSong{
     display:grid;
     grid-template-columns: 20% 80%;
@@ -40,6 +60,8 @@ nav{
 #chartContainer{
   grid-column: 2 / 3;
   width: 100%;
+  background-color: rgba(63, 63, 63, 0.6);
+  margin-top: 8px;
 }
 #chart{
   position: relative;
@@ -48,15 +70,24 @@ nav{
 }
 canvas{
   width: 100%;
+  
 }
 h4{
   text-align: center;
+  font-size: 16pt;
+  
 }
 #analysisData{
-  background-color: aqua;
+  /* background-color: aqua; */
+  background-color: rgba(63, 63, 63, 0.6);
+  margin: 8px;
+  padding: 4px;
 }
 #details{
-  background-color: crimson;
+  /* background-color: crimson; */
+  background-color: rgba(63, 63, 63, 0.6) ;
+  margin: 8px;
+  padding: 4px;
 }
 caption{
     font-size: 20pt;
@@ -71,17 +102,26 @@ form{
     height: 100%;
 }
 #credits{
-    background-color: gray;
+    background-color: rgba(63, 63, 63, 0.35);
     flex-grow: 1;
     display: flex;
     justify-content: space-around;
 }
 #credits p{
   margin: auto;
-  background-color: lightgray;
+  background-color: var(--CurrentPage);
+  padding: 3px;
 }
 #credits a{
   margin: auto;
+  padding: 3px;
+  background-color: var(--CurrentPage);
+}
+a:link {
+  color: var(--LinkColor);
+}
+a:visited{
+  color: var(--LinkColor);
 }
 tr:nth-child(even) {
   background-color: rgba(63, 63, 63, 0.35);
@@ -90,6 +130,7 @@ tr:hover{
   background-color: rgba(63, 63, 63, 0.6);
   cursor: pointer;
 }
+
 /* This was generated at https://www.shapedivider.app */
 .custom-shape-divider-top-1666384790 {
   position: relative;

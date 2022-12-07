@@ -348,7 +348,32 @@ function core(data){
                 scales: {
                     r: {   
                         suggestedMin: 0,
-                        suggestedMax: 100
+                        suggestedMax: 100,
+                        ticks: {
+                            color: 'rgb(255,255,255)',
+                            backdropColor: 'rgba(255, 255, 255, 0)'
+                        },
+                        pointLabels: {
+                            color: 'rgb(255,255,255)'
+                        }
+                    }
+                    /* grid: {
+                        color: 'color: rgb(255,255,255)'
+                    } */
+                },
+                scale: {
+                    pointLabels: {
+                        fontColor: 'color: rgb(255,255,255)'
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgb(255,255,255)'
+                        },
+                        title: {
+                            color: 'rgb(255,255,255)'
+                        }
                     }
                 }
             }
