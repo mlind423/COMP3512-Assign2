@@ -5,7 +5,6 @@
   --LinkColor: #18CF00;
 }
 body{
-    height: 100%;
     background-color:  var(--Background);
     color: white;
     margin: 0px;
@@ -15,8 +14,7 @@ header{
   background-color: var(--HeaderFooter);
 }
 footer{
-  position: absolute;
-  bottom: 0px;
+  bottom: auto;
   width: 100%;
   background-color: var(--HeaderFooter);
   color: white;
@@ -63,6 +61,7 @@ nav button {
 }
 .playlists , #singleSong , .main{
   margin-top: 10px;
+  height: 100%;
 }
 nav{
   margin-bottom: 0;
@@ -84,20 +83,24 @@ nav{
   width: 100%;
   background-color: rgba(63, 63, 63, 0.6);
   margin-top: 8px;
+  display: flex;
+  flex-direction: column;
 }
 #chart{
   position: relative;
+  margin-right: auto;
+  margin-left: auto;
   height: 100%;
   width: 100%;
+  max-height: 85vh;
 }
 canvas{
   width: 100%;
   
 }
 h4{
-  text-align: center;
+  margin-left: 12px;
   font-size: 16pt;
-  
 }
 #analysisData{
   /* background-color: aqua; */
@@ -117,6 +120,9 @@ caption{
 }
 form{
     grid-column: 1;
+}
+table{
+  height: 100%;
 }
 #tableContainer{
     grid-column: 2;
