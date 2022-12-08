@@ -9,9 +9,12 @@ body{
     color: white;
     margin: 0px;
 }
-header{
+#header{
   margin: 0px;
   background-color: var(--HeaderFooter);
+}
+header{
+  height: 20vh;
 }
 footer{
   bottom: auto;
@@ -19,6 +22,7 @@ footer{
   background-color: var(--HeaderFooter);
   color: white;
   margin: auto;
+  height: 8vh;
 }
 footer > *{
   margin: 4px;
@@ -57,10 +61,11 @@ nav button {
 .main{
     display:grid;
     grid-template-columns: 1fr , 4fr;
-    height: 100vh;
 }
 .playlists , #singleSong , .main{
   margin-top: 10px;
+  height:71vh;
+  padding-top: 30px;
 }
 nav{
   margin-bottom: 0;
@@ -69,13 +74,17 @@ nav{
 .playlists{
   width: 100%;
 }
+#songs{
+  height: fit-content;
+}
 #list{
   width:100%;
+  height: f;
 }
 #singleSong{
     display:grid;
     grid-template-columns: 2fr 4fr;
-    height: 100vh;
+    /* height: 100vh; */
 }
 #chartContainer{
   grid-column: 2 / 3;
@@ -84,6 +93,7 @@ nav{
   margin-top: 8px;
   display: flex;
   flex-direction: column;
+  max-height: 65vh; 
 }
 #chart{
   position: relative;
@@ -91,7 +101,7 @@ nav{
   margin-left: auto;
   height: 100%;
   width: 100%;
-  max-height: 85vh;
+  max-height: 63vh; 
 }
 canvas{
   width: 100%;
