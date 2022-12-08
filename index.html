@@ -43,23 +43,31 @@
     <div class="main">
         
         <form id="search">
-            <input type="radio" id="radioTitle" name="radio">
-            <label for="radioTitle">Title</label>
-            <input type="text" id="title" disabled></br>
+            <div>
+                <input type="radio" id="radioTitle" name="radio">
+                <label for="radioTitle">Title</label>
+                <input type="text" id="title" disabled></br>
+            </div>
 
-            <input type="radio" id="radioArtist" name="radio">
-            <label for="radioArtist">Artist</label>
-            <select id="artist" disabled>
+            <div>
+                <input type="radio" id="radioArtist" name="radio">
+                <label for="radioArtist">Artist</label>
+                <select id="artist" disabled>
+                </select>
+            </div>
 
-            </select></br>
-            <input type="radio" id="radioGenre" name="radio">
-            <label for="radioGenre">Genre</label>
-            <select id="genre" disabled>
-
-            </select>
+            <div>
+                
+                    <input type="radio" id="radioGenre" name="radio">
+                    <label for="radioGenre">Genre</label>
+                    <select id="genre" disabled>
+                </select>
+            </div>
             </br>
-            <button type="button">Clear</button>
-            <input type="submit" id="submit">
+            <div>
+                <button type="button">Clear</button>
+                <input type="submit" id="submit">
+            </div>
         </form>
         <div id="tableContainer">
             <table id="songs">
