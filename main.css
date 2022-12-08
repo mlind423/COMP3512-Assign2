@@ -185,7 +185,7 @@ form{
   background-color: rgba(49, 49, 49, 0.35);
   box-shadow: inset 14px 11px 24px -8px rgba(0,0,0,0.93);
   box-shadow: 10px 12px 24px -8px rgba(99, 99, 99, 0.93);
-  border-radius: 10%;
+  border-radius: 20px;
 }
 
 /* This was generated at https://www.shapedivider.app */
