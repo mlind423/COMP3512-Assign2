@@ -79,7 +79,7 @@ nav{
 }
 #list{
   width:100%;
-  height: f;
+  height: fit-content;
 }
 #singleSong{
     display:grid;
